@@ -40,7 +40,7 @@
 
       always:
         - name: Unmount NAS SMB Share
-          ansible.windows.win_command: >0231522
+          ansible.windows.win_command: >
             net use Z: /delete /y
           register: unmount_net
           failed_when: unmount_net.rc not in [0, 2]
