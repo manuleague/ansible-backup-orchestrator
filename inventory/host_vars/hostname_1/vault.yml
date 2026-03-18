@@ -1,0 +1,4 @@
+ansible_user: windows_user_1
+ansible_password: 'windows_password_1'
+nas_username: nas_user_1
+nas_password: 'nas_password_1'

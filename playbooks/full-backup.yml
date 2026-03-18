@@ -1,0 +1,51 @@
+---
+- name: Execute Full Backup for Workstations
+  hosts: workstations
+  gather_facts: false
+
+  tasks:
+    - name: Clear old network connections
+      ansible.windows.win_command: >
+        net use Z: /delete /y
+      register: clear_net
+      failed_when: clear_net.rc not in [0, 2]
+      changed_when: clear_net.rc == 0
+
+    - name: Show NAS share path
+      ansible.builtin.debug:
+        msg: "Using NAS share {{ nas_shared_folder }} on host {{ inventory_hostname }}"
+
+    - name: Run full backup workflow securely
+      block:
+        - name: Mount NAS SMB Share
+          ansible.windows.win_command: >
+            net use Z: "{{ nas_shared_folder }}" /user:{{ nas_username }} "{{ nas_password }}" /persistent:no
+          register: mount_status
+          no_log: true
+
+        - name: Run Hasleo Full Backup Task
+          ansible.windows.win_shell: |
+            & "{{ hasleo_exe }}" /a run /g "{{ nas_task_guid }}" /t 0 /s 1
+          register: backup_status
+          no_log: true
+
+        - name: Show full backup success
+          ansible.builtin.debug:
+            msg: "Full backup executed successfully on {{ inventory_hostname }}"
+
+      rescue:
+        - name: Show sanitized full backup failure
+          ansible.builtin.debug:
+            msg: "Full backup failed on {{ inventory_hostname }}. Check NAS access, Hasleo task GUID, or Windows logs."
+
+      always:
+        - name: Unmount NAS SMB Share
+          ansible.windows.win_command: >
+            net use Z: /delete /y
+          register: unmount_net
+          failed_when: unmount_net.rc not in [0, 2]
+          changed_when: unmount_net.rc == 0
+
+        - name: Display full backup summary
+          ansible.builtin.debug:
+            msg: "Full backup workflow finished on {{ inventory_hostname }}"

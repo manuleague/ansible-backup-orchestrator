@@ -1,0 +1,4 @@
+vault_ansible_user: windows_user_2
+vault_ansible_password: 'windows_password_2'
+vault_nas_username: nas_user_2
+vault_nas_password: 'nas_password_2'

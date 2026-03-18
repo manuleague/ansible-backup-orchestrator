@@ -1,0 +1,10 @@
+ansible_connection: winrm
+ansible_winrm_transport: ntlm
+ansible_port: 5986
+ansible_winrm_scheme: https
+ansible_winrm_server_cert_validation: validate
+nas_ip_address: 192.168.xx.xx
+hasleo_exe: 'C:\Program Files\Hasleo\Hasleo Backup Suite\bin\BackupCmdUI.exe'
+
+ansible_user: "{{ vault_ansible_user }}"
+ansible_password: "{{ vault_ansible_password }}"

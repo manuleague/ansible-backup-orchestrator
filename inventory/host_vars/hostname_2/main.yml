@@ -1,0 +1,9 @@
+ansible_host: hostname_2
+nas_shared_folder: '\\your_nas_name\backup_folder_2'
+nas_task_guid: "YOUR-HASLEO-TASK-GUID-2"
+ansible_winrm_ca_trust_path: /home/ubuntu24/ansible-backup-orchestrator/certs/hostname_2-winrm.pem
+
+ansible_user: "{{ vault_ansible_user }}"
+ansible_password: "{{ vault_ansible_password }}"
+nas_username: "{{ vault_nas_username }}"
+nas_password: "{{ vault_nas_password }}"

@@ -1,0 +1,2 @@
+ansible_user: windows_administrator_user
+ansible_password: 'windows_administrator_password'

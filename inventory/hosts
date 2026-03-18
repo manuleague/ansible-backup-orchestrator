@@ -1,0 +1,10 @@
+[workstations]
+hostname_1
+hostname_2
+
+[workstations:vars]
+ansible_connection=winrm
+ansible_winrm_transport=ntlm
+ansible_winrm_server_cert_validation=validate
+ansible_port=5986
+ansible_winrm_scheme=https
